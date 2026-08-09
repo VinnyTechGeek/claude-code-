@@ -49,7 +49,36 @@
   canvas{max-height:200px;}
   .settingsRow{display:flex; gap:8px; align-items:center; margin-top:8px;}
   .settingsRow input{flex:1;}
-  .footnote{font-size:11px; color:var(--muted); margin-top:10px; text-align:center;}
+  .progressWrap{margin-top:16px;}
+  .progressTrack{
+    position:relative; height:14px; background:#0f1115; border-radius:999px;
+    overflow:visible; border:1px solid var(--border);
+  }
+  .progressFill{
+    position:absolute; top:0; left:0; height:100%; border-radius:999px;
+    transition:width .3s;
+  }
+  .progressMarker{
+    position:absolute; top:-4px; width:2px; height:22px; background:var(--text);
+    opacity:.7;
+  }
+  .progressMarker::after{
+    content:'ideal'; position:absolute; top:-16px; left:50%; transform:translateX(-50%);
+    font-size:9px; color:var(--muted); white-space:nowrap;
+  }
+  .progressLabels{display:flex; justify-content:space-between; margin-top:6px; font-size:11px; color:var(--muted);}
+  .highlightCard{
+    background:linear-gradient(135deg, rgba(96,165,250,.12), rgba(74,222,128,.06));
+    border:1px solid rgba(96,165,250,.3);
+  }
+  .dayForecast{display:flex; gap:8px; overflow-x:auto; margin-top:12px; padding-bottom:4px;}
+  .dayChip{
+    flex:0 0 auto; min-width:64px; background:#0f1115; border:1px solid var(--border);
+    border-radius:10px; padding:8px 6px; text-align:center;
+  }
+  .dayChip.today{border-color:var(--blue); background:rgba(96,165,250,.12);}
+  .dayChip .dNum{font-size:11px; color:var(--muted);}
+  .dayChip .dVal{font-size:12px; font-weight:600; margin-top:3px;}
 </style>
 </head>
 <body>
@@ -70,6 +99,23 @@
       <button onclick="saveBudget()">Salvar</button>
     </div>
   </div>
+  <div class="progressWrap">
+    <div class="progressTrack">
+      <div class="progressFill" id="progressFill"></div>
+      <div class="progressMarker" id="progressMarker"></div>
+    </div>
+    <div class="progressLabels">
+      <span id="progressLeftLabel">US$ 0</span>
+      <span id="progressRightLabel">US$ 200</span>
+    </div>
+  </div>
+</div>
+
+<div class="card highlightCard">
+  <div class="label">🎯 Você pode gastar até</div>
+  <div class="big" id="canSpendToday" style="font-size:32px; color:var(--green);">--</div>
+  <div class="mini" id="canSpendSub">por dia, no ritmo restante do mês</div>
+  <div class="dayForecast" id="dayForecast"></div>
 </div>
 
 <div class="card">
